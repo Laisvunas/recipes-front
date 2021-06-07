@@ -61,7 +61,7 @@ export default {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
+        // console.log(data);
         if (typeof data.msg !== 'undefined' && data.msg === 'logged-in') {
           const inputs = document.querySelectorAll('.navbar-item .input, .login_button, .register_button');
           for (let i = 0; i < inputs.length; i += 1) {
@@ -93,7 +93,7 @@ export default {
         }),
       }).then((res) => res.json())
         .then((data) => {
-          console.log(data);
+          // console.log(data);
           if (data.token) {
             localStorage.setItem('token', data.token);
             const inputs = document.querySelectorAll('.navbar-item .input, .login_button, .register_button');
@@ -111,8 +111,10 @@ export default {
           if (data.favs) {
             data.favs.forEach((item) => {
               const favButton = document.querySelector(`div[card_id="${item.recipe_id}"] div.fav_button`);
-              favButton.classList.remove('nonfav');
-              favButton.classList.add('fav');
+              if (favButton) {
+                favButton.classList.remove('nonfav');
+                favButton.classList.add('fav');
+              }
             });
           }
           if (data.error) {
@@ -122,7 +124,11 @@ export default {
     },
     logout() {
       localStorage.removeItem('token');
-      this.$router.push('/');
+      if (window.location.href.indexOf('/favs') > -1
+      || window.location.href.indexOf('/new') > -1
+      || window.location.href.indexOf('/comment') > -1) {
+        this.$router.push('/');
+      }
       const inputs = document.querySelectorAll('.navbar-item .input, .login_button, .register_button');
       for (let i = 0; i < inputs.length; i += 1) {
         inputs[i].style.display = 'inline';
@@ -143,7 +149,6 @@ export default {
 
 <style>
 .container {
-  border: solid 1px cyan;
   padding: 1.5rem 0 1.5rem 0;
   max-width: 960px!important;
 }

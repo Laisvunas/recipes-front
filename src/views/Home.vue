@@ -99,13 +99,13 @@ export default {
             newData[newData.length - 1].description = `${newData[newData.length - 1].description.substring(0, 100)}...`;
           }
         });
-        console.log(newData);
+        // console.log(newData);
         this.recipesData = newData;
       });
   },
   methods: {
     search() {
-      console.log(this.searchPhr);
+      // console.log(this.searchPhr);
       const url = `${backendUrlBase}/search`;
       fetch(url, {
         method: 'POST',
@@ -139,7 +139,7 @@ export default {
               newData[newData.length - 1].description = `${newData[newData.length - 1].description.substring(0, 100)}...`;
             }
           });
-          console.log(newData);
+          // console.log(newData);
           this.recipesData = newData;
         });
     },

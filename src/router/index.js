@@ -37,7 +37,7 @@ const routes = [
     },
   },
   {
-    path: '/comment',
+    path: '/comment/:id',
     name: 'New Comment',
     component: () => import(/* webpackChunkName: "recipes" */ '../views/Comment.vue'),
     meta: {

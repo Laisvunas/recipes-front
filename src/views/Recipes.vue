@@ -36,9 +36,10 @@
       </div>
     </div>
 
-    <div class="block">
+    <div class="block" v-for="recipe in recipesData"
+      v-bind:key="recipe.id" :card_id="recipe.id">
       <h1 class="title is-2">Comments <a
-        href="/comment"
+        :href="/comment/ + recipe.id"
         class="button is-link is-middle"
         id="new_comment_btn" v-on:click.prevent="toNewComment">New Comment</a></h1>
     </div>

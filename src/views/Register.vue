@@ -64,7 +64,7 @@ export default {
         }),
       }).then((res) => res.json())
         .then((data) => {
-          console.log(data);
+          // console.log(data);
           if (typeof data.msg !== 'undefined') {
             const inputs = document.querySelectorAll('#register_form input');
             for (let i = 0; i < inputs.length; i += 1) {
@@ -73,7 +73,7 @@ export default {
             document.querySelector('.message.is-success > div.message-body').innerText = data.msg;
             document.querySelector('.message.is-success').style.display = 'block';
           } else if (typeof data.error !== 'undefined') {
-            console.log(data.error);
+            // console.log(data.error);
             document.querySelector('.message.is-danger > div.message-body').innerText = 'Some error happened. Try again later.';
             document.querySelector('.message.is-danger').style.display = 'block';
           }

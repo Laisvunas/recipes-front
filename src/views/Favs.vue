@@ -81,7 +81,7 @@ export default {
             newData[newData.length - 1].description = `${newData[newData.length - 1].description.substring(0, 100)}...`;
           }
         });
-        console.log(newData);
+        // console.log(newData);
         this.recipesData = newData;
       });
   },
