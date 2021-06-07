@@ -1,3 +1,3 @@
 module.exports = {
-  backendUrlBase: 'http://localhost:3030',
+  backendUrlBase: 'https://recipes-back-vwift.ondigitalocean.app/',
 };
