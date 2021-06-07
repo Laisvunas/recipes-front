@@ -37,28 +37,37 @@
     </div>
 
     <div class="block">
-      <h1 class="title is-2">Comments</h1>
+      <h1 class="title is-2">Comments <a
+        href="/comment"
+        class="button is-link is-middle"
+        id="new_comment_btn" v-on:click.prevent="toNewComment">New Comment</a></h1>
     </div>
     <div class="block">
       <p id="nothing_found_msg">No comments found.</p>
     </div>
-    <div class="block">
-      <a
-        href="/comment"
-        class="button is-link is-middle" v-on:click.prevent="toNewComment">New Comment</a>
-    </div>
+
+    <article class="message comment" v-for="comment in commentsData" v-bind:key="comment.id">
+      <div class="message-body">
+        <p><strong>{{ comment.email }}</strong> said:
+        <span class="date_time">{{ comment.timestamp }}</span></p>
+        {{ comment.comment }}
+      </div>
+    </article>
 
   </div>
 
 </template>
 
 <script>
+import changeStarFunction from '../utils/changeStar';
+
 const { backendUrlBase } = require('../config');
 
 export default {
   data() {
     return {
       recipesData: '',
+      commentsData: '',
     };
   },
   beforeMount() {
@@ -84,10 +93,19 @@ export default {
             newData[newData.length - 1].comments_str = `${newData[newData.length - 1].comments_num} comments`;
           }
         });
-        console.log(newData);
         this.recipesData = newData;
         if (data.data.comments.length === 0) {
           document.querySelector('#nothing_found_msg').style.display = 'block';
+        } else {
+          const newCommData = [];
+          data.data.comments.forEach((element) => {
+            newCommData.push(element);
+            newCommData[newCommData.length - 1].timestamp = newCommData[newCommData.length - 1].timestamp.replace('T', ' ');
+            const pointIndex = newCommData[newCommData.length - 1].timestamp.indexOf('.');
+            newCommData[newCommData.length - 1].timestamp = newCommData[newCommData.length - 1]
+              .timestamp.substr(0, pointIndex);
+          });
+          this.commentsData = newCommData;
         }
       });
   },
@@ -101,28 +119,7 @@ export default {
       window.location.href = event.target.href;
     },
     changeStar(event) {
-      const token = localStorage.getItem('token');
-      if (!token) {
-        alert('You need to be logged in.');
-        return;
-      }
-      const recipeId = event.target.getAttribute('recipe_id');
-      const stared = event.target.classList.contains('fav');
-      let url = '';
-      if (stared) {
-        event.target.classList.remove('fav');
-        event.target.classList.add('nonfav');
-        url = `${backendUrlBase}/stars/delete/${recipeId}`;
-      } else {
-        event.target.classList.remove('nonfav');
-        event.target.classList.add('fav');
-        url = `${backendUrlBase}/stars/add/${recipeId}`;
-      }
-      fetch(url, {
-        headers: {
-          authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-      });
+      changeStarFunction(event);
     },
   },
 };
@@ -139,5 +136,17 @@ export default {
 }
 #nothing_found_msg {
   display: none;
+}
+article.message.comment {
+  display: block;
+}
+#new_comment_btn {
+  display: inline-block;
+  float: right;
+  margin-top: 0.5rem;
+}
+span.date_time {
+  display: inline-block;
+  float: right;
 }
 </style>

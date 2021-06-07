@@ -74,6 +74,8 @@ export default {
           greeting.innerText = `Logged in as ${data.email}`;
           const logoutButton = document.querySelector('.logout_button');
           logoutButton.style.display = 'inline';
+        } else {
+          localStorage.removeItem('token');
         }
       });
   },
